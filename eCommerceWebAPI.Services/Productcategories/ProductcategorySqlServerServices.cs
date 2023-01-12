@@ -35,11 +35,11 @@ namespace eCommerceWebAPI.Services.Productcategories
             var myProductcategories = AllProductcategories();
 
 
-         /*   if (myProductcategories.Any(u => u.name == request.name))
+            if (myProductcategories.Any(u => u.name == request.name))
             {
                 response = SetResponse(false, "Product catergory is already in the system", null);
                 return response;
-            }*/
+            }
             var category = new Category
             {
               
@@ -57,33 +57,47 @@ namespace eCommerceWebAPI.Services.Productcategories
 
         }
 
-        public  CategoryErrorHandler UpdateProductCatergory(int id, ProductCatergoryRequest request)
+        public  CategoryErrorHandler UpdateProductCatergory(int id, UpdateProductCategoryRequest request)
        
         {
 
-            var myproductcategories = AllProductcategories();
+            var myProductcategories = AllProductcategories();
+            var productcatergory = OneProductcategory(id);
 
-            if (!myproductcategories.Any(u => u.categoryId == id))
+        
+
+            if (request.updateName == null && request.updateDescription == null)
             {
-
-                response = SetResponse(false, "Product catergory is not in the system", null);
+                response = SetResponse(false, "Nothing to Update", null);
                 return response;
 
             }
-          /*  if (myproductcategories.Any(u => u.name  == request.name)) 
+            if (_context.Categories.Any(c => c.name == request.updateName))
             {
-                response = SetResponse(false, "Product catergory is already in the system", null);
-                return response;
-            }*/
+                if (productcatergory.name != request.updateName)
+                {
+                    response = SetResponse(false, "Category already exists", null);
+                    return response;
+                }
 
-            var productcatergory = OneProductcategory(id);
+            }
 
-            productcatergory.name = request.name;
-            productcatergory.description = request.description;
- 
+            if (request.updateName != null)
+            {
+                productcatergory.name = request.updateName;
+            }
+
+            if (request.updateDescription != null)
+            {
+                productcatergory.description = request.updateDescription;
+            }
+
             _context.Categories.Update(productcatergory);
-             _context.SaveChangesAsync();
-            response = SetResponse(true, "Product catergory is Updated", productcatergory);
+            _context.SaveChangesAsync();
+
+            productcatergory = OneProductcategory(id);
+
+            response = SetResponse(true, "Category updated successfully", productcatergory);
             return response;
 
         }

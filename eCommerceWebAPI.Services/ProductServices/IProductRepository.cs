@@ -16,7 +16,7 @@ namespace eCommerceWebAPI.Services.ProductServices
         public List<Product> AllProduct();
         public Product OneProduct(int id);
         public ProductErrorHandler AddaProduct(ProductRequest request);
-        public ProductErrorHandler UpdateProduct(int id,ProductRequest request);
+        public ProductErrorHandler UpdateProduct(int id,UpdateProductRequest request);
         public ProductErrorHandler DeleteProduct(int id);
         public List<Product> SearchProduct(SearchProductRequest request);
 

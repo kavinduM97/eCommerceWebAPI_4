@@ -24,6 +24,9 @@ namespace eCommerceWebAPI.Controllers
         [HttpPost("PlaceOrder/{id}")]
         public async Task<ActionResult<Product>> PlaceOrder(int id, OrderRequest request)
         {
+
+
+
             //var responseP = _context.PlaceOrder(id, request);
 
             var responseP = _context.PlaceOrder(id, request);
@@ -34,7 +37,7 @@ namespace eCommerceWebAPI.Controllers
 
 
             // var tranId = responseP.transid;
-            var tranId = 102;
+            var tranId =responseP.transid;
 
 
             var product = await _dbcontext.Products.Where(c => c.productId == id).Include(c => c.Orders).FirstOrDefaultAsync();
@@ -60,5 +63,7 @@ namespace eCommerceWebAPI.Controllers
 
 
         }
+
+
     }
 }

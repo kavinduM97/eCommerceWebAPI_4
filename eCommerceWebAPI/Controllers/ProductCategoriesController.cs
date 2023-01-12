@@ -71,7 +71,7 @@ namespace eCommerceWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProductCatergory(int id, ProductCatergoryRequest request)
+        public IActionResult UpdateProductCatergory(int id, UpdateProductCategoryRequest request)
         {
             var response = _productcategoriesServices.UpdateProductCatergory(id,request);
 

@@ -14,7 +14,7 @@ namespace eCommerceWebAPI.Services.Productcategories
         public List<Category> AllProductcategories();
         public Category OneProductcategory(int id);
         public CategoryErrorHandler AddaProductCaterory(ProductCatergoryRequest request);
-        public CategoryErrorHandler UpdateProductCatergory(int id, ProductCatergoryRequest request);
+        public CategoryErrorHandler UpdateProductCatergory(int id, UpdateProductCategoryRequest request);
         public CategoryErrorHandler DeleteProductCatergory(int id);
     }
 }

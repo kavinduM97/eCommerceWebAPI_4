@@ -31,19 +31,31 @@ namespace eCommerceWebAPI.Services.Orders
 
             if (!_context.Users.Any(u => u.email == request.email))
             {
-                response = SetResponse(false, "User is not  exists", 09);
+                response = SetResponse(false, "User is not  exists", 404);
                 return response;
             }
             var myProduct = _productServices.AllProduct();
             if (!myProduct.Any(u => u.productId == id))
             {
-                response = SetResponse(false, "Product is not exists", 099);
+                response = SetResponse(false, "Product is not exists", 404);
                 return response;
             }
 
+            var stock = _context.Products.Where(p => p.productId == id).Select(p => p.stock).FirstOrDefault();
+
+            stock = stock - request.quantity;
+
+            if (stock < 0)
+            {
+                response = SetResponse(false, "Quantity exceed stock", 400);
+
+                return response;
+            }
+
+
             var date = DateTime.Now;
 
-            //var tranId = SetTransactionId(request.email, id);
+            var tranId = SetTransactionId();
             //int trid = Int32.Parse(tranId);
             var order = new Models.Order
             {
@@ -51,7 +63,7 @@ namespace eCommerceWebAPI.Services.Orders
                 date = date,
 
                 state = 0,
-                trnsid = 102,
+                trnsid = tranId,
 
                 email = request.email,
 
@@ -61,9 +73,19 @@ namespace eCommerceWebAPI.Services.Orders
             _context.SaveChangesAsync();
             Thread.Sleep(5000);
 
+            var Rstock = _context.Products.Where(p => p.productId == id).Select(p => p.stock).FirstOrDefault();
+
+            Rstock = stock - request.quantity;
+
+            var product = _context.Products.Find(id);
+
+            product.stock = stock;
+
+            _context.Products.Update(product);
+            _context.SaveChangesAsync();
 
 
-            response = SetResponse(true, "Order added",  102);
+            response = SetResponse(true, "Order added", tranId);
             return response;
 
 
@@ -95,12 +117,15 @@ namespace eCommerceWebAPI.Services.Orders
         }*/
 
 
-      /* private static string SetTransactionId(string email, int id)
-        {
-            var mySecretString = email + id;
 
-            return Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(mySecretString)));
-        }*/
+        private static int SetTransactionId()
+        {
+            DateTime d = DateTime.Now;
+            int res = d.GetHashCode();
+
+
+            return res;
+        }
 
 
         private OrderErrorHandler SetResponse(bool state, string message, int ttransid)
@@ -117,11 +142,3 @@ namespace eCommerceWebAPI.Services.Orders
         }
     }
 }
-
-
-
-
-
-
-
-

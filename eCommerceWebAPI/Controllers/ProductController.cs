@@ -71,7 +71,7 @@ namespace eCommerceWebAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, ProductRequest request)
+        public IActionResult UpdateProduct(int id, UpdateProductRequest request)
         {
 
             var response = _productServices.UpdateProduct( id,request);
