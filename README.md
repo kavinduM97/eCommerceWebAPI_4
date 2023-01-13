@@ -159,12 +159,8 @@ User login
   POST /api/User/login
 ```
 
-# Project Title
 
-A brief description of what this project does and who it's for
-
-
-## Learning outcomes
+# Learning outcomes
 
 1.	 Created RESTful ASP.NET Core APIs according to described requirements.
 2.	Use Entity Framework Core as ORM 
