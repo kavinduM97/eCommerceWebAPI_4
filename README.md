@@ -158,20 +158,6 @@ User login
 ```http
   POST /api/User/login
 ```
-## Learning outcomes
 
--Created RESTful ASP.NET Core APIs according to described requirements.
-
--Use Entity Framework Core as ORM 
-
--Used MSSQL Express to store data. Used code first approach to develop the database 
-
--Covered code by writing necessary unit tests (xUnit).
-
--Use Swagger to document and test the APIs. 
-
--Used dependency injection
-
--Used a logger for logging any error/information to a local text file (Serilog)
 
 
