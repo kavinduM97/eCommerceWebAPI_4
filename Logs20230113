@@ -1,0 +1,63 @@
+2023-01-13 16:45:02.470 +05:30 [INF] User profile is available. Using 'C:\Users\User\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-01-13 16:45:02.784 +05:30 [INF] Now listening on: https://localhost:7075
+2023-01-13 16:45:02.785 +05:30 [INF] Now listening on: http://localhost:5224
+2023-01-13 16:45:02.793 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2023-01-13 16:45:02.795 +05:30 [INF] Hosting environment: Development
+2023-01-13 16:45:02.797 +05:30 [INF] Content root path: C:\Users\User\Documents\B E\demo\cleanU\1 alldone,miner chnge hv in struc of prooder\1\1 t4 done\eCommerceWebAPI_3-master\eCommerceWebAPI\
+2023-01-13 16:45:03.381 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/index.html - -
+2023-01-13 16:45:03.777 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/index.html - - - 200 - text/html;charset=utf-8 395.9358ms
+2023-01-13 16:45:03.801 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - -
+2023-01-13 16:45:03.811 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - - - 200 12000 application/javascript;+charset=utf-8 10.2972ms
+2023-01-13 16:45:03.877 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_vs/browserLink - -
+2023-01-13 16:45:03.994 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 117.3409ms
+2023-01-13 16:45:04.175 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - -
+2023-01-13 16:45:04.361 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 185.2883ms
+2023-01-13 16:45:32.571 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7075/api/Product/addproduct application/json 84
+2023-01-13 16:45:32.790 +05:30 [INF] Executing endpoint 'eCommerceWebAPI.Controllers.ProductController.AddProduct (eCommerceWebAPI)'
+2023-01-13 16:45:32.847 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult AddProduct(eCommerceWebAPI.Requests.ProductRequest) on controller eCommerceWebAPI.Controllers.ProductController (eCommerceWebAPI).
+2023-01-13 16:45:37.177 +05:30 [INF] Executing OkObjectResult, writing value of type 'eCommerceWebAPI.ErrorHandler.ProductErrorHandler'.
+2023-01-13 16:45:37.195 +05:30 [INF] Executed action eCommerceWebAPI.Controllers.ProductController.AddProduct (eCommerceWebAPI) in 4334.6229ms
+2023-01-13 16:45:37.198 +05:30 [INF] Executed endpoint 'eCommerceWebAPI.Controllers.ProductController.AddProduct (eCommerceWebAPI)'
+2023-01-13 16:45:37.198 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7075/api/Product/addproduct application/json 84 - 200 - application/json;+charset=utf-8 4626.7335ms
+2023-01-13 16:46:13.421 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/api/Product - -
+2023-01-13 16:46:13.423 +05:30 [INF] Executing endpoint 'eCommerceWebAPI.Controllers.ProductController.Getproducts (eCommerceWebAPI)'
+2023-01-13 16:46:13.426 +05:30 [INF] Route matched with {action = "Getproducts", controller = "Product"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Getproducts() on controller eCommerceWebAPI.Controllers.ProductController (eCommerceWebAPI).
+2023-01-13 16:46:13.480 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[eCommerceWebAPI.Models.Product, eCommerceWebAPI.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2023-01-13 16:46:13.481 +05:30 [INF] Executed action eCommerceWebAPI.Controllers.ProductController.Getproducts (eCommerceWebAPI) in 54.2906ms
+2023-01-13 16:46:13.481 +05:30 [INF] Executed endpoint 'eCommerceWebAPI.Controllers.ProductController.Getproducts (eCommerceWebAPI)'
+2023-01-13 16:46:13.481 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/api/Product - - - 200 - application/json;+charset=utf-8 59.7504ms
+2023-01-13 16:46:32.813 +05:30 [INF] User profile is available. Using 'C:\Users\User\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-01-13 16:46:33.228 +05:30 [INF] Now listening on: https://localhost:7075
+2023-01-13 16:46:33.229 +05:30 [INF] Now listening on: http://localhost:5224
+2023-01-13 16:46:33.242 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2023-01-13 16:46:33.245 +05:30 [INF] Hosting environment: Development
+2023-01-13 16:46:33.247 +05:30 [INF] Content root path: C:\Users\User\Documents\B E\demo\cleanU\1 alldone,miner chnge hv in struc of prooder\1\1 t4 done\eCommerceWebAPI_3-master\eCommerceWebAPI\
+2023-01-13 16:46:34.060 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/index.html - -
+2023-01-13 16:46:34.382 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/index.html - - - 200 - text/html;charset=utf-8 329.1908ms
+2023-01-13 16:46:34.409 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - -
+2023-01-13 16:46:34.415 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - - - 200 12000 application/javascript;+charset=utf-8 6.1398ms
+2023-01-13 16:46:34.464 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_vs/browserLink - -
+2023-01-13 16:46:34.485 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 20.0125ms
+2023-01-13 16:46:34.695 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - -
+2023-01-13 16:46:34.862 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 167.6040ms
+2023-01-13 16:46:56.519 +05:30 [INF] Request starting HTTP/2 POST https://localhost:7075/api/ProductCategories/addproductCaterory application/json 49
+2023-01-13 16:46:56.634 +05:30 [INF] Executing endpoint 'eCommerceWebAPI.Controllers.ProductCategoriesController.AddProductCaterory (eCommerceWebAPI)'
+2023-01-13 16:46:56.683 +05:30 [INF] Route matched with {action = "AddProductCaterory", controller = "ProductCategories"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult AddProductCaterory(eCommerceWebAPI.Requests.ProductCatergoryRequest) on controller eCommerceWebAPI.Controllers.ProductCategoriesController (eCommerceWebAPI).
+2023-01-13 16:46:59.989 +05:30 [INF] Executing OkObjectResult, writing value of type 'eCommerceWebAPI.ErrorHandler.CategoryErrorHandler'.
+2023-01-13 16:47:00.005 +05:30 [INF] Executed action eCommerceWebAPI.Controllers.ProductCategoriesController.AddProductCaterory (eCommerceWebAPI) in 3312.8562ms
+2023-01-13 16:47:00.008 +05:30 [INF] Executed endpoint 'eCommerceWebAPI.Controllers.ProductCategoriesController.AddProductCaterory (eCommerceWebAPI)'
+2023-01-13 16:47:00.008 +05:30 [INF] Request finished HTTP/2 POST https://localhost:7075/api/ProductCategories/addproductCaterory application/json 49 - 200 - application/json;+charset=utf-8 3489.4918ms
+2023-01-13 16:48:26.303 +05:30 [INF] User profile is available. Using 'C:\Users\User\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2023-01-13 16:48:26.535 +05:30 [INF] Now listening on: https://localhost:7075
+2023-01-13 16:48:26.536 +05:30 [INF] Now listening on: http://localhost:5224
+2023-01-13 16:48:26.545 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2023-01-13 16:48:26.547 +05:30 [INF] Hosting environment: Development
+2023-01-13 16:48:26.548 +05:30 [INF] Content root path: C:\Users\User\Documents\B E\demo\cleanU\1 alldone,miner chnge hv in struc of prooder\1\1 t4 done\eCommerceWebAPI_3-master\eCommerceWebAPI\
+2023-01-13 16:48:27.116 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/index.html - -
+2023-01-13 16:48:27.435 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/index.html - - - 200 - text/html;charset=utf-8 323.9944ms
+2023-01-13 16:48:27.467 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - -
+2023-01-13 16:48:27.479 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_framework/aspnetcore-browser-refresh.js - - - 200 12000 application/javascript;+charset=utf-8 11.7613ms
+2023-01-13 16:48:27.519 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/_vs/browserLink - -
+2023-01-13 16:48:27.544 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 24.3679ms
+2023-01-13 16:48:27.710 +05:30 [INF] Request starting HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - -
+2023-01-13 16:48:27.852 +05:30 [INF] Request finished HTTP/2 GET https://localhost:7075/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 141.0946ms

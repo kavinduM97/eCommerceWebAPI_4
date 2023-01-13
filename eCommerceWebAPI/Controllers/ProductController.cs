@@ -13,7 +13,8 @@ namespace eCommerceWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+    [Authorize(Roles = "Admin")]
+
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productServices;
@@ -24,7 +25,7 @@ namespace eCommerceWebAPI.Controllers
             
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public IActionResult Getproducts()
         {
 
@@ -38,7 +39,7 @@ namespace eCommerceWebAPI.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), AllowAnonymous]
 
         public IActionResult Getproduct(int id)
         {
@@ -70,7 +71,7 @@ namespace eCommerceWebAPI.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id},\"updateProduct\"")]
         public IActionResult UpdateProduct(int id, UpdateProductRequest request)
         {
 
@@ -86,7 +87,7 @@ namespace eCommerceWebAPI.Controllers
 
 
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{id},\"deleteProduct\"")]
         public IActionResult DeleteProduct(int id)
         {
 
@@ -100,7 +101,7 @@ namespace eCommerceWebAPI.Controllers
 
         }
 
-        [HttpPost("SearchProduct"),AllowAnonymous]
+        [HttpPost("SearchProduct"), AllowAnonymous]
         public IActionResult SearchProducts(SearchProductRequest request)
         {
 
