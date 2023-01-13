@@ -2,10 +2,12 @@
 using eCommerceWebAPI.DataAccess;
 using eCommerceWebAPI.DataAccess.Migrations;
 using eCommerceWebAPI.ErrorHandler;
+using eCommerceWebAPI.Models;
 using eCommerceWebAPI.Requests;
 using eCommerceWebAPI.Services.Order;
 using eCommerceWebAPI.Services.Productcategories;
 using eCommerceWebAPI.Services.ProductServices;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -21,24 +23,28 @@ namespace eCommerceWebAPI.Services.Orders
         private OrderErrorHandler response;
         private readonly DbbContext _context = new DbbContext();
         private readonly IProductRepository _productServices;
-
+       
         public OrderService(IProductRepository productServices)
         {
             _productServices = productServices;
+         
         }
-        public OrderErrorHandler PlaceOrder(int id, OrderRequest request)
+        public async Task<bool> PlaceOrder(int id, OrderRequest request)
         {
+
+            Random rnd = new Random();
+            int TrId = rnd.Next();
 
             if (!_context.Users.Any(u => u.email == request.email))
             {
                 response = SetResponse(false, "User is not  exists", 404);
-                return response;
+                return false;
             }
             var myProduct = _productServices.AllProduct();
             if (!myProduct.Any(u => u.productId == id))
             {
                 response = SetResponse(false, "Product is not exists", 404);
-                return response;
+                return false;
             }
 
             var stock = _context.Products.Where(p => p.productId == id).Select(p => p.stock).FirstOrDefault();
@@ -49,13 +55,14 @@ namespace eCommerceWebAPI.Services.Orders
             {
                 response = SetResponse(false, "Quantity exceed stock", 400);
 
-                return response;
+                return false;
             }
 
-
+           
             var date = DateTime.Now;
 
-            var tranId = SetTransactionId();
+             //var tranId = SetTransactionId();
+         
             //int trid = Int32.Parse(tranId);
             var order = new Models.Order
             {
@@ -63,17 +70,17 @@ namespace eCommerceWebAPI.Services.Orders
                 date = date,
 
                 state = 0,
-                trnsid = tranId,
+                trnsid = TrId,
 
                 email = request.email,
 
 
             };
-            _context.Orders.Add(order);
-            _context.SaveChangesAsync();
+             _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
             Thread.Sleep(5000);
 
-            var Rstock = _context.Products.Where(p => p.productId == id).Select(p => p.stock).FirstOrDefault();
+            var Rstock = await _context.Products.Where(p => p.productId == id).Select(p => p.stock).FirstOrDefaultAsync();
 
             Rstock = stock - request.quantity;
 
@@ -82,11 +89,21 @@ namespace eCommerceWebAPI.Services.Orders
             product.stock = stock;
 
             _context.Products.Update(product);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
 
-            response = SetResponse(true, "Order added", tranId);
-            return response;
+           // response = SetResponse(true, "Order added", TrId);
+            //  return true;
+
+
+            var response1 = ProductOrderPlace(id, request,TrId); 
+            if (response1.Result == false)
+            {
+                return false;
+
+            }
+
+            return true;
 
 
         }
@@ -118,13 +135,48 @@ namespace eCommerceWebAPI.Services.Orders
 
 
 
+        public async Task<bool> ProductOrderPlace(int id, OrderRequest request, int trId)
+        {
+
+
+
+            var tranId = trId;
+          //  tranId = SetTransactionId();
+
+
+            var product = await _context.Products.Where(c => c.productId == id).Include(c => c.Orders).FirstOrDefaultAsync();
+            if (product == null)
+            {
+                return false;
+
+            }
+
+            //  var oid= _dbcontext.Orders.Where(u => u.trnsid == responseP.transid).FirstOrDefault();
+            // var ooId = oid.orderId;
+            var orderr = await _context.Orders.Where(c => c.trnsid == tranId).FirstOrDefaultAsync();
+            orderr.state = (OrderState)2;
+            if (orderr == null)
+            {
+                return false;
+            }
+
+            product.Orders.Add(orderr);
+            await _context.SaveChangesAsync();
+            return true;
+            //
+        }
+
+
+
+
+
         private static int SetTransactionId()
         {
-            DateTime d = DateTime.Now;
-            int res = d.GetHashCode();
+            Random rnd = new Random();
+            int num = rnd.Next();
 
 
-            return res;
+            return num;
         }
 
 

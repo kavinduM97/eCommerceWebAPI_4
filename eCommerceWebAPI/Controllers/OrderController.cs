@@ -1,5 +1,6 @@
 ﻿using Azure;
 using eCommerceWebAPI.DataAccess;
+using eCommerceWebAPI.ErrorHandler;
 using eCommerceWebAPI.Models;
 using eCommerceWebAPI.Requests;
 using eCommerceWebAPI.Services.Order;
@@ -12,20 +13,64 @@ namespace eCommerceWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Orderontroller : ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _context;
-        private readonly DbbContext _dbcontext = new DbbContext();
-        public Orderontroller(IOrderRepository context)
+       
+
+        public OrderController(IOrderRepository context )
         {
-            _context = context; 
+            _context = context;
+          
         }
 
         [HttpPost("PlaceOrder/{id}")]
-        public async Task<ActionResult<Product>> PlaceOrder(int id, OrderRequest request)
+        public string PlaceOrders(int id, OrderRequest request)
         {
+            // Random rnd = new Random();
+            // int TrId = rnd.Next();
+            var response1 = _context.PlaceOrder(id, request);
+            if (response1.Result == false)
+            {
+                return "Please Check Product and Available quantity again";
+
+            }
+
+            return "OrderProduct table updated succesfully";
+
+            /*
+            var response1 = _context.PlaceOrder(id,  request);
+         
+            if (response1.Result == false)
+            {
+                return "Please Check Product and Available quantity again";
+               
+            }
+
+            var response2 = _context.ProductOrderPlace(id,  request);
+            if (response2.Result == false)
+            {
+                return "Order details are not matching, OrderProduct table was not updated";
+            }
+
+            return "OrderProduct table updated succesfully";
 
 
+            */
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /*
 
             //var responseP = _context.PlaceOrder(id, request);
 
@@ -57,9 +102,9 @@ namespace eCommerceWebAPI.Controllers
             product.Orders.Add(orderr);
             await _dbcontext.SaveChangesAsync();
             return Ok("done");
-            //
+            */
 
-            
+
 
 
         }

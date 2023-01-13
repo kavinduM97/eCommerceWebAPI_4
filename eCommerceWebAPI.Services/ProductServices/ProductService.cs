@@ -9,6 +9,7 @@ using eCommerceWebAPI.Services.Productcategories;
 using eCommerceWebAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,14 @@ namespace eCommerceWebAPI.Services.ProductServices
        
         private readonly IProductcategoryRepository _productcategoriesServices;
         private ProductErrorHandler response;
-        private readonly DbbContext _context = new DbbContext();
+        private readonly DbbContext _context= new DbbContext();
 
         public ProductService(IProductcategoryRepository repository)
         {
             _productcategoriesServices = repository;
            
-            
+
+
         }
         public ProductErrorHandler AddaProduct(ProductRequest request)
         {
@@ -70,11 +72,27 @@ namespace eCommerceWebAPI.Services.ProductServices
             return response;
         }
 
-           
 
-          
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public List<Product> AllProduct()
         {

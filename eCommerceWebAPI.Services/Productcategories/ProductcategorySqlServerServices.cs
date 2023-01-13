@@ -16,7 +16,7 @@ namespace eCommerceWebAPI.Services.Productcategories
         private readonly DbbContext _context = new DbbContext();
         private CategoryErrorHandler response;
 
-
+      
         public List<Category> AllProductcategories()
         {
             return _context.Categories.ToList();

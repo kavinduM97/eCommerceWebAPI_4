@@ -18,10 +18,10 @@ namespace eCommerceWebAPI.Controllers
     {
         private readonly IProductRepository _productServices;
         private readonly IProductcategoryRepository _productcategoriesServices;
-        public ProductController(IProductRepository repository, IProductcategoryRepository productcategoriesServices)
+        public ProductController(IProductRepository repository)
         {
             _productServices = repository;
-            _productcategoriesServices = productcategoriesServices;
+            
         }
 
         [HttpGet]
@@ -58,7 +58,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult AddProduct(ProductRequest request)
         {
             var response = _productServices.AddaProduct(request);
-
+        
 
             if (response.State == false)
             {
@@ -101,11 +101,22 @@ namespace eCommerceWebAPI.Controllers
         }
 
         [HttpPost("SearchProduct"),AllowAnonymous]
-        public IActionResult SearchProduct(SearchProductRequest request)
+        public IActionResult SearchProducts(SearchProductRequest request)
         {
-            var response = _productServices.SearchProduct(request);
 
-            return response.Count == 0 ? BadRequest("Product is not existed") : Ok(response);
+
+            IActionResult a;
+            var response = _productServices.SearchProduct(request);
+            if (response.Count==0) { 
+                a=BadRequest(response);
+            }
+            else
+            {
+                a=Ok(response);
+            }
+            return a;
+
+            //return response.Count == 0 ? BadRequest("Product is not existed") : Ok(response); 
         }
     }
 }
