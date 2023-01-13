@@ -56,7 +56,7 @@ namespace eCommerceWebAPI.Services.Users
 
             try
             {
-
+                 
                 var user = new User
                 {
                     email = request.email,
