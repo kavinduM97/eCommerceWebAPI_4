@@ -55,34 +55,32 @@ namespace eCommerceWebAPI.Tests.Controllers
                _serviceMock.Verify(x => x.SearchProduct(request), Times.Once);
            }
 
-       /* [Fact]
+        [Fact]
         public void SearchProduct_ShouldReturnBadRequestResponse_WhenSearchProductNotFound()
         {
             //Arrange
 
             var request = new SearchProductRequest
             {
-                name = "banana",
+                name = null,
             };
 
-            var responseMock = _fixture.Create<List<Product>>();
+            List<Product> response = new List<Product>();
 
-            _serviceMock.Setup(x => x.SearchProduct(request)).Returns(responseMock);
+
+            _serviceMock.Setup(x => x.SearchProduct(request)).Returns(response);
 
             //Act
             var result = _sut.SearchProducts(request);
-
             BadRequestObjectResult badResult = result as BadRequestObjectResult;
-
-            
 
             //Assert
             result.Should().NotBeNull();
             result.Should().BeAssignableTo<BadRequestObjectResult>();
             result.GetType().Should().Be(typeof(BadRequestObjectResult));
-            Assert.Equal(200, badResult.StatusCode);
+            Assert.Equal(400, badResult.StatusCode);
             _serviceMock.Verify(x => x.SearchProduct(request), Times.Once);
         }
-       */
+       
     }
 }

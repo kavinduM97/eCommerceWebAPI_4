@@ -104,17 +104,15 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult SearchProducts(SearchProductRequest request)
         {
 
-
-            IActionResult a;
-            var response = _productServices.SearchProduct(request);
-            if (response.Count==0) { 
-                a=BadRequest(response);
-            }
-            else
+            var _object = new
             {
-                a=Ok(response);
-            }
-            return a;
+                state = false,
+                message = "Product is not existed",
+            };
+
+            var response = _productServices.SearchProduct(request);
+
+            return response.Count == 0 ? BadRequest(_object) : Ok(response);
 
             //return response.Count == 0 ? BadRequest("Product is not existed") : Ok(response); 
         }
