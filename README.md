@@ -158,3 +158,20 @@ User login
 ```http
   POST /api/User/login
 ```
+
+# Project Title
+
+A brief description of what this project does and who it's for
+
+
+## Learning outcomes
+
+1.	 Created RESTful ASP.NET Core APIs according to described requirements.
+2.	Use Entity Framework Core as ORM 
+3. Used MSSQL Express to store data. Used code first approach to develop the database
+4.	 Covered code by writing necessary unit tests (xUnit).
+5.	Use Swagger to document and test the APIs. 
+6.	Used dependency injection
+7.	Used a logger for logging any error/information to a local text file (Serilog)
+
+
