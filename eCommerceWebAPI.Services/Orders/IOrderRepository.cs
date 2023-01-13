@@ -15,6 +15,7 @@ namespace eCommerceWebAPI.Services.Order
     {
         public OrderErrorHandler PlaceOrder(int id, OrderRequest request);
         //public Task<ActionResult<List<Product>>> UpdateTables(int id, UpdateOrderRequestscs responseP);
+       // public  Task<bool> ProductOrderPlace(int id, OrderRequest request, int trId);
 
     }
 }

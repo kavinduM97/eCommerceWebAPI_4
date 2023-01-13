@@ -13,18 +13,19 @@ namespace eCommerceWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+    [Authorize(Roles = "Admin")]
+
     public class ProductController : ControllerBase
     {
         private readonly IProductRepository _productServices;
         private readonly IProductcategoryRepository _productcategoriesServices;
-        public ProductController(IProductRepository repository, IProductcategoryRepository productcategoriesServices)
+        public ProductController(IProductRepository repository)
         {
             _productServices = repository;
-            _productcategoriesServices = productcategoriesServices;
+            
         }
 
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public IActionResult Getproducts()
         {
 
@@ -38,7 +39,7 @@ namespace eCommerceWebAPI.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), AllowAnonymous]
 
         public IActionResult Getproduct(int id)
         {
@@ -58,7 +59,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult AddProduct(ProductRequest request)
         {
             var response = _productServices.AddaProduct(request);
-
+        
 
             if (response.State == false)
             {
@@ -70,8 +71,8 @@ namespace eCommerceWebAPI.Controllers
         }
 
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, ProductRequest request)
+        [HttpPut("{id},\"updateProduct\"")]
+        public IActionResult UpdateProduct(int id, UpdateProductRequest request)
         {
 
             var response = _productServices.UpdateProduct( id,request);
@@ -86,7 +87,7 @@ namespace eCommerceWebAPI.Controllers
 
 
     
-    [HttpDelete("{id}")]
+    [HttpDelete("{id},\"deleteProduct\"")]
         public IActionResult DeleteProduct(int id)
         {
 
@@ -100,12 +101,21 @@ namespace eCommerceWebAPI.Controllers
 
         }
 
-        [HttpPost("SearchProduct"),AllowAnonymous]
-        public IActionResult SearchProduct(SearchProductRequest request)
+        [HttpPost("SearchProduct"), AllowAnonymous]
+        public IActionResult SearchProducts(SearchProductRequest request)
         {
+
+            var _object = new
+            {
+                state = false,
+                message = "Product is not existed",
+            };
+
             var response = _productServices.SearchProduct(request);
 
-            return response.Count == 0 ? BadRequest("Product is not existed") : Ok(response);
+            return response.Count == 0 ? BadRequest(_object) : Ok(response);
+
+            //return response.Count == 0 ? BadRequest("Product is not existed") : Ok(response); 
         }
     }
 }

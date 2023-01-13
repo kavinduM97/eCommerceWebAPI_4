@@ -1,4 +1,5 @@
 ﻿using Assignment.Request;
+using Azure;
 using Azure.Core;
 using eCommerceWebAPI.DataAccess;
 using eCommerceWebAPI.ErrorHandler;
@@ -8,6 +9,7 @@ using eCommerceWebAPI.Services.Productcategories;
 using eCommerceWebAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,18 +24,19 @@ namespace eCommerceWebAPI.Services.ProductServices
        
         private readonly IProductcategoryRepository _productcategoriesServices;
         private ProductErrorHandler response;
-        private readonly DbbContext _context = new DbbContext();
+        private readonly DbbContext _context= new DbbContext();
 
         public ProductService(IProductcategoryRepository repository)
         {
             _productcategoriesServices = repository;
            
-            
+
+
         }
         public ProductErrorHandler AddaProduct(ProductRequest request)
         {
 
-            if (_context.Products.Any(u => u.name == request.name))
+            if (_context.Products.Any(p => p.name == request.name && p.categoryId == request.categoryId))
             {
                 response = SetResponse(false, "Product already exists", null);
                 return response;
@@ -69,11 +72,27 @@ namespace eCommerceWebAPI.Services.ProductServices
             return response;
         }
 
-           
 
-          
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public List<Product> AllProduct()
         {
@@ -87,36 +106,86 @@ namespace eCommerceWebAPI.Services.ProductServices
             return _context.Products.Find(id);
         }
 
-        public  ProductErrorHandler UpdateProduct(int id,ProductRequest request)
+        public  ProductErrorHandler UpdateProduct(int id,UpdateProductRequest request)
 
 
         {
-            var myProduct = AllProduct();
-            if (myProduct.Any(u => u.productId == id))
-            {
-                var myProductcategories = _productcategoriesServices.AllProductcategories();
-                if (!myProductcategories.Any(u => u.categoryId == request.categoryId))
-                {
-                    response = SetResponse(false, "Product category is not matching", null);
-                    return response;
-                }
-                if (_context.Products.Any(u => u.name == request.name ))
-                {
-                    response = SetResponse(false, "Product already exists", null);
-                    return response;
-                }
-                var product = OneProduct(id);
+            var product =  OneProduct(id);
 
-                product.name = request.name;
-                product.description = request.description;
-                product.stock = request.stock;
-                product.categoryId = request.categoryId;
-                _context.Products.Update(product);
-                _context.SaveChangesAsync();
-                response = SetResponse(true, "Product Updated!", product);
+
+
+
+
+            if (request.updateName == null && request.updateDescription == null && request.updateStock == null && request.updateCategoryId == null)
+            {
+                response = SetResponse(false, "Nothing to Update", null);
                 return response;
+
+
+
             }
-            response = SetResponse(false, "Product is not exsits..Please check again", null);
+
+
+
+            if (request.updateName != null)
+            {
+                if (request.updateCategoryId > 0)
+                {
+                    if (_context.Products.Any(p => p.name == request.updateName && p.categoryId == request.updateCategoryId))
+                    {
+                        response = SetResponse(false, "Product already exists in the category",  null);
+                        return response;
+                    }
+                }
+                else
+                {
+                    if (_context.Products.Any(p => p.name == request.updateName && p.categoryId == product.categoryId))
+                    {
+                        response = SetResponse(false, "Product already exists in the category", null);
+                        return response;
+                    }
+                }
+                product.name = request.updateName;
+            }
+
+
+
+            if (request.updateDescription != null)
+            {
+                product.description = request.updateDescription;
+            }
+
+
+
+            if (request.updateStock > -1)
+            {
+                product.stock = request.updateStock;
+            }
+
+
+
+            if (request.updateCategoryId > 0)
+            {
+                if (_context.Products.Any(p => p.name == product.name && p.categoryId == request.updateCategoryId))
+                {
+                    response = SetResponse(false, "Product already exists in the category", null);
+                    return response;
+                }
+                product.categoryId = request.updateCategoryId;
+            }
+
+
+
+            _context.Products.Update(product);
+            _context.SaveChangesAsync();
+
+
+
+            product = OneProduct(id);
+
+
+
+            response = SetResponse(true, "Category updated successfully", product);
             return response;
         }
         public  ProductErrorHandler DeleteProduct(int id)
@@ -140,7 +209,14 @@ namespace eCommerceWebAPI.Services.ProductServices
         public List<Product> SearchProduct(SearchProductRequest request)
         {
             var categoryId = _context.Categories.Where(c => c.name == request.name).Select(c => c.categoryId).FirstOrDefault();
-           
+            var productName = _context.Products.Where(p => p.name == request.name).Select(p => p.name).FirstOrDefault();
+
+
+            if (categoryId != 0 && productName != null)
+            {
+                return _context.Products.Where(p => p.categoryId == categoryId || p.name == productName).ToList();
+            }
+
             if (categoryId != 0)
             {
                 return _context.Products.Where(p => p.categoryId == categoryId).ToList();

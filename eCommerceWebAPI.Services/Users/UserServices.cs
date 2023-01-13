@@ -18,13 +18,14 @@ namespace eCommerceWebAPI.Services.Users
 {
     public class UserServices : IUserRepository
     {
-        private readonly DbbContext _context = new DbbContext();
+        private readonly DbbContext _context=new DbbContext();
         private UserErrorHandler response;
         private readonly IConfiguration _configuration;
 
         public UserServices(IConfiguration configuration)
         {
             _configuration = configuration;
+        
         }
 
         //Get All Users
@@ -55,7 +56,7 @@ namespace eCommerceWebAPI.Services.Users
 
             try
             {
-
+                 
                 var user = new User
                 {
                     email = request.email,

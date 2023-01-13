@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -48,6 +49,17 @@ builder.Services.AddScoped<IProductcategoryRepository, ProductcategorySqlServerS
 builder.Services.AddScoped<IUserRepository, UserServices>();
 builder.Services.AddScoped<IProductRepository, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderService>();
+
+
+
+
+var _loggrer = new LoggerConfiguration()
+.WriteTo.File("C:\\Users\\User\\Documents\\B E\\demo\\cleanU\\1 alldone,miner chnge hv in struc of prooder\\1\\1 t4 done\\eCommerceWebAPI_3-master\\Logs\\ApiLog-.log", rollingInterval: RollingInterval.Day)
+.CreateLogger();
+builder.Logging.AddSerilog(_loggrer);
+
+
+
 
 var app = builder.Build();
 

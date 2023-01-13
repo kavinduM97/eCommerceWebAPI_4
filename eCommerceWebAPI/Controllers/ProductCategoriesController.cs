@@ -12,6 +12,7 @@ namespace eCommerceWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
 
     public class ProductCategoriesController : ControllerBase
     {
@@ -21,7 +22,7 @@ namespace eCommerceWebAPI.Controllers
         {
             _productcategoriesServices = repository;
         }
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public IActionResult Getproductcategories()
         {
 
@@ -70,8 +71,8 @@ namespace eCommerceWebAPI.Controllers
             
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateProductCatergory(int id, ProductCatergoryRequest request)
+        [HttpPut("{id},\"updateCaterory\"")]
+        public IActionResult UpdateProductCatergory(int id, UpdateProductCategoryRequest request)
         {
             var response = _productcategoriesServices.UpdateProductCatergory(id,request);
 
@@ -84,7 +85,7 @@ namespace eCommerceWebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id},\"deleteCaterory\"")]
         public IActionResult DeleteProductCatergory(int id)
         {
             var response = _productcategoriesServices.DeleteProductCatergory(id);
