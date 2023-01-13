@@ -158,7 +158,7 @@ User login
 ```http
   POST /api/User/login
 ```
-## API Reference
+## Learning outcomes
 
 -Created RESTful ASP.NET Core APIs according to described requirements.
 
