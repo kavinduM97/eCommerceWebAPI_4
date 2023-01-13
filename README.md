@@ -103,12 +103,12 @@ Get product by Id
 Update product
 
 ```http
-  PUT /api/Product/{id}
+  PUT /api/Product/{id},"updateProduct"
 ```
 
 Delete product
 ```http
-   DELETE /api/Product/{id}
+   DELETE /api/Product/{id},"deleteProduct"
 ```
 
 
@@ -138,12 +138,12 @@ Get product catergory by Id
 Update product catergory
 
 ```http
- PUT /api/ProductCatergories/{id}
+ PUT /api/ProductCatergories/{id},"updateCaterory"
 ```
 
 Delete product catergory
 ```http
- DELETE /api/ProductCatergories/{id}
+ DELETE /api/ProductCatergories/{id},"deleteCaterory"
 ```
 
 
