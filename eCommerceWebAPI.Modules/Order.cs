@@ -8,21 +8,16 @@ namespace eCommerceWebAPI.Models
 {
     public class Order
     {
-        public int orderId { get; set; }
-        public DateTime date { get; set; }
-        public OrderState state { get; set; }
-        public int trnsid { get; set; }
-        public string email { get; set; }
-        public List<Product> Products { get; set; }
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; }
+        public string userEmail { get; set; }
+        public User User { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
 
 
     }
 
-    public enum OrderState
-    {
-        Pending,
-        Purchase,
-        Completed
-    }
+    
 
 }

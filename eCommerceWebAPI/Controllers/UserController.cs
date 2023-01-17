@@ -13,11 +13,11 @@ namespace eCommerceWebAPI.Controllers
     public class UserController : ControllerBase
 
     {
-        private readonly IUserRepository _userregServices;
+        private readonly IUserRepository _userServices;
       
         public UserController(IUserRepository repository)
         {
-            _userregServices = repository;
+            _userServices = repository;
         }
 
  
@@ -29,7 +29,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult Register(UserRequest request)
         {
 
-            var response = _userregServices.UserRegistration(request);
+            var response = _userServices.UserRegistration(request);
 
             if (response.State == false)
             {
@@ -47,7 +47,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult Login(UserRequest request)
         {
 
-            var response = _userregServices.UserLoging(request);
+            var response = _userServices.UserLoging(request);
 
             if (response.State == false)
             {

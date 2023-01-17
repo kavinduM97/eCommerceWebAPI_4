@@ -1,10 +1,10 @@
-﻿using Assignment.Request;
+﻿using eCommerceWebAPI.Requests;
 using Azure;
 using Azure.Core;
 using eCommerceWebAPI.DataAccess;
 using eCommerceWebAPI.ErrorHandler;
 using eCommerceWebAPI.Models;
-using eCommerceWebAPI.Requests;
+
 using eCommerceWebAPI.Services.Productcategories;
 using eCommerceWebAPI.Services.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace eCommerceWebAPI.Services.ProductServices
        
         private readonly IProductcategoryRepository _productcategoriesServices;
         private ProductErrorHandler response;
-        private readonly DbbContext _context= new DbbContext();
+        private readonly DbbContext _dbcontext= new DbbContext();
 
         public ProductService(IProductcategoryRepository repository)
         {
@@ -36,13 +36,13 @@ namespace eCommerceWebAPI.Services.ProductServices
         public ProductErrorHandler AddaProduct(ProductRequest request)
         {
 
-            if (_context.Products.Any(p => p.name == request.name && p.categoryId == request.categoryId))
+            if (_dbcontext.Products.Any(p => p.name == request.name && p.categoryId == request.categoryId))
             {
                 response = SetResponse(false, "Product already exists", null);
                 return response;
             }
             var myProductcategories = _productcategoriesServices.AllProductcategories();
-            if (!myProductcategories.Any(u => u.categoryId == request.categoryId))
+            if (!myProductcategories.Any(u => u.catergoryId == request.categoryId))
             {
                 response = SetResponse(false, "Product category is not matching", null);
                 return response;
@@ -59,8 +59,9 @@ namespace eCommerceWebAPI.Services.ProductServices
                     categoryId = request.categoryId
 
                 };
-                _context.Products.Add(Product);
-                _context.SaveChangesAsync();
+                _dbcontext.Products.Add(Product);
+                _dbcontext.SaveChangesAsync();
+                Thread.Sleep(2000);
                 response = SetResponse(true, "Product added", Product);
             }
             catch (Exception ex)
@@ -74,36 +75,16 @@ namespace eCommerceWebAPI.Services.ProductServices
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public List<Product> AllProduct()
         {
-            return _context.Products.ToList();
+            return _dbcontext.Products.ToList();
         }
 
       
 
         public Product OneProduct(int id)
         {
-            return _context.Products.Find(id);
+            return _dbcontext.Products.Find(id);
         }
 
         public  ProductErrorHandler UpdateProduct(int id,UpdateProductRequest request)
@@ -131,7 +112,7 @@ namespace eCommerceWebAPI.Services.ProductServices
             {
                 if (request.updateCategoryId > 0)
                 {
-                    if (_context.Products.Any(p => p.name == request.updateName && p.categoryId == request.updateCategoryId))
+                    if (_dbcontext.Products.Any(p => p.name == request.updateName && p.categoryId == request.updateCategoryId))
                     {
                         response = SetResponse(false, "Product already exists in the category",  null);
                         return response;
@@ -139,7 +120,7 @@ namespace eCommerceWebAPI.Services.ProductServices
                 }
                 else
                 {
-                    if (_context.Products.Any(p => p.name == request.updateName && p.categoryId == product.categoryId))
+                    if (_dbcontext.Products.Any(p => p.name == request.updateName && p.categoryId == product.categoryId))
                     {
                         response = SetResponse(false, "Product already exists in the category", null);
                         return response;
@@ -166,7 +147,7 @@ namespace eCommerceWebAPI.Services.ProductServices
 
             if (request.updateCategoryId > 0)
             {
-                if (_context.Products.Any(p => p.name == product.name && p.categoryId == request.updateCategoryId))
+                if (_dbcontext.Products.Any(p => p.name == product.name && p.   categoryId == request.updateCategoryId))
                 {
                     response = SetResponse(false, "Product already exists in the category", null);
                     return response;
@@ -176,8 +157,8 @@ namespace eCommerceWebAPI.Services.ProductServices
 
 
 
-            _context.Products.Update(product);
-            _context.SaveChangesAsync();
+            _dbcontext.Products.Update(product);
+            _dbcontext.SaveChangesAsync();
 
 
 
@@ -192,7 +173,7 @@ namespace eCommerceWebAPI.Services.ProductServices
         {
 
             var myproductServices = AllProduct();
-            if (!myproductServices.Any(u => u.productId == id))
+            if (!myproductServices.Any(u => u.categoryId == id))
             {
                 response = SetResponse(false, "Product is already not in the system", null);
                 return response;
@@ -200,29 +181,29 @@ namespace eCommerceWebAPI.Services.ProductServices
 
                var product = OneProduct(id);
 
-            _context.Products.Remove(product);
-           _context.SaveChangesAsync();
+            _dbcontext.Products.Remove(product);
+            _dbcontext.SaveChangesAsync();
             response = SetResponse(true, "Product is Deleted", product);
             return response;
         }
 
         public List<Product> SearchProduct(SearchProductRequest request)
         {
-            var categoryId = _context.Categories.Where(c => c.name == request.name).Select(c => c.categoryId).FirstOrDefault();
-            var productName = _context.Products.Where(p => p.name == request.name).Select(p => p.name).FirstOrDefault();
+            var categoryId = _dbcontext.Categories.Where(c => c.Name == request.name).Select(c => c.catergoryId).FirstOrDefault();
+            var productName = _dbcontext.Products.Where(p => p.name == request.name).Select(p => p.name).FirstOrDefault();
 
 
             if (categoryId != 0 && productName != null)
             {
-                return _context.Products.Where(p => p.categoryId == categoryId || p.name == productName).ToList();
+                return _dbcontext.Products.Where(p => p.categoryId == categoryId || p.name == productName).ToList();
             }
 
             if (categoryId != 0)
             {
-                return _context.Products.Where(p => p.categoryId == categoryId).ToList();
+                return _dbcontext.Products.Where(p => p.categoryId == categoryId).ToList();
             }
 
-            return _context.Products.Where(p => p.name == request.name).ToList();
+            return _dbcontext.Products.Where(p => p.name == request.name).ToList();
 
         }
 

@@ -1,6 +1,5 @@
-﻿using Assignment.Request;
+﻿using eCommerceWebAPI.Requests;
 using Azure.Core;
-using eCommerceWebAPI.Requests;
 using eCommerceWebAPI.Services.Productcategories;
 using eCommerceWebAPI.Services.ProductServices;
 using Microsoft.AspNetCore.Authorization;

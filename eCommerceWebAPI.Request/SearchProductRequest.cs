@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Assignment.Request
+namespace eCommerceWebAPI.Requests
 {
     public class SearchProductRequest
     {

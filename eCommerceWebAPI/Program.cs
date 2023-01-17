@@ -45,7 +45,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddScoped<IProductcategoryRepository, ProductcategorySqlServerServices>();
+builder.Services.AddScoped<IProductcategoryRepository, ProductcategoryServices>();
 builder.Services.AddScoped<IUserRepository, UserServices>();
 builder.Services.AddScoped<IProductRepository, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderService>();
