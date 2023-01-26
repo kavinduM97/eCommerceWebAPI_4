@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerceWebAPI.DataAccess;
 
@@ -11,9 +12,11 @@ using eCommerceWebAPI.DataAccess;
 namespace eCommerceWebAPI.DataAccess.Migrations
 {
     [DbContext(typeof(DbbContext))]
-    partial class DbbContextModelSnapshot : ModelSnapshot
+    [Migration("20230126045338_update cart")]
+    partial class updatecart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,9 +151,6 @@ namespace eCommerceWebAPI.DataAccess.Migrations
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("stock")
                         .HasColumnType("int");

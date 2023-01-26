@@ -47,7 +47,7 @@ namespace eCommerceWebAPI.Controllers
 
 
         //[HttpPost("PlaceOrder"), AllowAnonymous]
-        [HttpPost("AddToCart/{productId}/{userEmail}")]
+        [HttpPost("AddToCart/{productId}/{userEmail}/{quantity}")]
         public IActionResult AddtoCart(int productId, string userEmail, int quantity)
         {
 
@@ -62,6 +62,39 @@ namespace eCommerceWebAPI.Controllers
 
 
         }
+
+        //get cart
+
+        [HttpGet("GetAllProductsInCart/{userEmail}")]
+        // [Authorize(Roles = "Admin || Customer")]
+        public IActionResult GetAllProductsInCart(string userEmail)
+        {
+
+            var Response = _orderService.GetAllProductsInCart(userEmail);
+
+            return Response.Count == 0 ? BadRequest("No any Product in cart") : Ok(Response);
+
+        }
+
+
+
+        //Delete cart item
+
+
+        [HttpDelete("DeleteFromCart/{id}/{userEmail}")]
+        public IActionResult DeleteCart(int id,string userEmail)
+        {
+
+            var response = _orderService.DeleteCartItem(id,userEmail);
+            if (response.State == false)
+            {
+                return BadRequest(response);
+            }
+
+            return Ok(response);
+
+        }
+
 
 
         [HttpPut("UpdateOrderState/{orderId}/{orderState}")]

@@ -210,11 +210,11 @@ namespace eCommerceWebAPI.Services.Orders
 
         public OrderErrorHandler AddToCart(int productId, string userEmail, int quantity)
         {
-            var stock = _dbcontext.Products.Where(p => p.ProductId == productId).Select(p => p.stock).FirstOrDefault();
+            //var stock = _dbcontext.Products.Where(p => p.ProductId == productId).Select(p => p.stock).FirstOrDefault();
+            var product = _dbcontext.Products.Where(p => p.ProductId == productId).Select(p => new { p.name, p.price, p.stock }).FirstOrDefault();
+            var totalPrice = quantity * product.price;
 
-
-
-            if (stock < quantity)
+            if (product.stock < quantity)
             {
                 response = SetResponse(false, "Quantity exeed stock", 0);
                 return response;
@@ -226,7 +226,9 @@ namespace eCommerceWebAPI.Services.Orders
             {
                 ProductId = productId,
                 userEmail = userEmail,
-                quantity = quantity
+                quantity = quantity,
+                productName= product.name,
+                totalPrice = totalPrice
             };
 
 
@@ -338,6 +340,38 @@ namespace eCommerceWebAPI.Services.Orders
         }
 
 
+        //Get all products in cart
+
+        public List<Cart> GetAllProductsInCart(string userEmail)
+        {
+            //return _context.Cart.ToList();
+            return _dbcontext.Carts.Where(c => c.userEmail == userEmail).ToList();
+        }
+
+
+        public Cart OneCartItem(int id)
+        {
+            return _dbcontext.Carts.Find(id);
+        }
+
+        public OrderErrorHandler DeleteCartItem(int id, string userEmail)
+        {
+            var item= _dbcontext.Carts.Where(c => c.userEmail == userEmail &&c.cartId==id ).FirstOrDefault(); 
+
+            if (item==null )
+            {
+                response = SetResponse(false, "No cart items belong to that user", 400);
+
+                return response;
+            }
+
+            var myitem = OneCartItem(id);
+            _dbcontext.Carts.Remove(myitem);
+            _dbcontext.SaveChangesAsync();
+            response = SetResponse(true, "cart item is Deleted", 200);
+            return response;
+
+        }
 
 
 

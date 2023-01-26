@@ -50,13 +50,17 @@ namespace eCommerceWebAPI.Services.ProductServices
 
             try
             {
+
+                var categoryName = _dbcontext.Categories.Where(c => c.catergoryId == request.categoryId).Select(c => c.Name).FirstOrDefault();
                 var Product = new Product
                 {
 
                     name = request.name,
                     description = request.description,
                     stock = request.stock,
-                    categoryId = request.categoryId
+                    categoryId = request.categoryId,
+                    price = request.price,
+                    categoryName= categoryName
 
                 };
                 _dbcontext.Products.Add(Product);

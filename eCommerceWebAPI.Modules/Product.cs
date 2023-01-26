@@ -14,6 +14,8 @@ namespace eCommerceWebAPI.Models
         public string name { get; set; }
         public string description { get; set; }
         public int stock { get; set; }
+        public string categoryName { get; set; }
+        public decimal price { get; set; }
         public int categoryId { get; set; }
         public Category category { get; set; }
         public virtual ICollection<Cart> Carts { get; set; }

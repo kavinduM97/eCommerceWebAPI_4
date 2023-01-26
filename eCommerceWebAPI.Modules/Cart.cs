@@ -8,10 +8,13 @@ namespace eCommerceWebAPI.Models
     {
         [Key]
         public int cartId { get; set; }
+        public string productName { get; set; }
+        public decimal totalPrice { get; set; }
         public int ProductId { get; set; }
         public Product Products { get; set; }
         public int quantity { get; set; }
         public string userEmail { get; set; }
         public User User { get; set; }
+      
     }
 }
