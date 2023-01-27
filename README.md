@@ -27,6 +27,8 @@ This is a simple Web-API for managing some functions of an e-commerce site.
 ```bash
 Open Visual Studio Community Edition 2022 and click on 'clone a repository'.
 Then paste the project link and click clone.
+Then go to Dbcontext and change the connecting string according to your credentials.
+Then assign a location for _loggrer variable, where you need to add a logger file.
 ```
     
 ## Start Project
