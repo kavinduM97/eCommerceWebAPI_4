@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceWebAPI.Services.Users;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerceWebAPI.Controllers
 {
@@ -13,11 +15,11 @@ namespace eCommerceWebAPI.Controllers
     public class UserController : ControllerBase
 
     {
-        private readonly IUserRepository _userregServices;
+        private readonly IUserRepository _userServices;
       
         public UserController(IUserRepository repository)
         {
-            _userregServices = repository;
+            _userServices = repository;
         }
 
  
@@ -29,7 +31,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult Register(UserRequest request)
         {
 
-            var response = _userregServices.UserRegistration(request);
+            var response = _userServices.UserRegistration(request);
 
             if (response.State == false)
             {
@@ -47,7 +49,7 @@ namespace eCommerceWebAPI.Controllers
         public IActionResult Login(UserRequest request)
         {
 
-            var response = _userregServices.UserLoging(request);
+            var response = _userServices.UserLoging(request);
 
             if (response.State == false)
             {
@@ -56,6 +58,15 @@ namespace eCommerceWebAPI.Controllers
 
             return Ok(response);
 
+        }
+
+
+        [HttpGet,Authorize]
+        public ActionResult <string>GetMe() 
+        {
+            var UserEmail = User.FindFirstValue(ClaimTypes.Email);
+            return Ok(UserEmail);
+                
         }
 
     }

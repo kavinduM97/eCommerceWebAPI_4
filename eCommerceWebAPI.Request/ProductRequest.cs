@@ -20,7 +20,10 @@ namespace eCommerceWebAPI.Requests
         [Required]
         public int stock { get; set; }
         public int categoryId { get; set; }
-       
-        
+        [Required]
+        public decimal price { get; set; }
     }
+
+
 }
+

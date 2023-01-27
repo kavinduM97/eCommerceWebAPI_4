@@ -12,7 +12,25 @@ using Serilog;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+        .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials();
+    });
+});
+
+
+
 
 // Add services to the container.
 
@@ -45,7 +63,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
-builder.Services.AddScoped<IProductcategoryRepository, ProductcategorySqlServerServices>();
+builder.Services.AddScoped<IProductcategoryRepository, ProductcategoryServices>();
 builder.Services.AddScoped<IUserRepository, UserServices>();
 builder.Services.AddScoped<IProductRepository, ProductService>();
 builder.Services.AddScoped<IOrderRepository, OrderService>();
@@ -58,7 +76,7 @@ var _loggrer = new LoggerConfiguration()
 .CreateLogger();
 builder.Logging.AddSerilog(_loggrer);
 
-
+//add cors
 
 
 var app = builder.Build();
@@ -71,6 +89,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 
 app.UseAuthorization();

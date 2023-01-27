@@ -18,25 +18,25 @@ namespace eCommerceWebAPI.Services.Users
 {
     public class UserServices : IUserRepository
     {
-        private readonly DbbContext _context=new DbbContext();
+        private readonly DbbContext _dbcontext=new DbbContext();
         private UserErrorHandler response;
-        private readonly IConfiguration _configuration;
+        private readonly IConfiguration _appSettingsconfiguration;
 
-        public UserServices(IConfiguration configuration)
+        public UserServices(IConfiguration appSettingsconfiguration)
         {
-            _configuration = configuration;
+            _appSettingsconfiguration = appSettingsconfiguration;
         
         }
 
         //Get All Users
         public List<User> AllUsers()
         {
-            return _context.Users.ToList();
+            return _dbcontext.Users.ToList();
         }
 
         public User GetUser(UserRequest request)
         {
-            var user = _context.Users.Where(u => u.email == request.email).FirstOrDefault();
+            var user = _dbcontext.Users.Where(u => u.Email == request.Email).FirstOrDefault();
             
             return user;
         }
@@ -48,7 +48,7 @@ namespace eCommerceWebAPI.Services.Users
         {
           
 
-            if (_context.Users.Any(u => u.email == request.email))
+            if (_dbcontext.Users.Any(u => u.Email == request.Email))
             {
                 response = SetResponse(false, "User already exists", "Customer", null);
                 return response;
@@ -59,14 +59,14 @@ namespace eCommerceWebAPI.Services.Users
                  
                 var user = new User
                 {
-                    email = request.email,
-                    password = request.password,
-                    isAdmin = false,
-                    token = "",
+                    Email = request.Email,
+                    Password = request.Password,
+                    IsAdmin = false,
+                    Token = "",
                 };
 
-                _context.Users.Add(user);
-                _context.SaveChangesAsync();
+                _dbcontext.Users.Add(user);
+                _dbcontext.SaveChangesAsync();
 
                 response = SetResponse(true, "User added successfully", "Customer", user);
 
@@ -86,9 +86,9 @@ namespace eCommerceWebAPI.Services.Users
 
         public UserErrorHandler UserLoging(UserRequest request)
         {
-            var user = _context.Users.Where(u => u.email == request.email && u.password == request.password).FirstOrDefault(); 
-            var admin= _context.Users.Where(u => u.email == request.email && u.password == request.password && u.isAdmin == true).FirstOrDefault(); 
-            var customer= _context.Users.Where(u => u.email == request.email && u.password == request.password && u.isAdmin == false).FirstOrDefault();
+            var user = _dbcontext.Users.Where(u => u.Email == request.Email && u.Password == request.Password).FirstOrDefault(); 
+            var admin= _dbcontext.Users.Where(u => u.Email == request.Email && u.Password == request.Password && u.IsAdmin == true).FirstOrDefault(); 
+            var customer= _dbcontext.Users.Where(u => u.Email == request.Email && u.Password == request.Password && u.IsAdmin == false).FirstOrDefault();
             if (user == null)
             {
                 response = SetResponse(false, "Loging failed", "User name or password is incorrect", user);
@@ -103,21 +103,21 @@ namespace eCommerceWebAPI.Services.Users
 
                     var mycustomer = GetUser(request);
 
-                    mycustomer.token = userjwtToken;
-                    _context.Users.Update(mycustomer);
+                    mycustomer.Token = userjwtToken;
+                    _dbcontext.Users.Update(mycustomer);
 
-                    _context.SaveChangesAsync();
+                    _dbcontext.SaveChangesAsync();
                     response = SetResponse(true, "Customer logged successfully", "Customer", customer);
                     return response;
                 }
                 string adminjwtToken = CreateJwtTokenAdmin(admin);
                 var myadmin = GetUser(request);
 
-                myadmin.token = adminjwtToken;
-                
-                _context.Users.Update(myadmin);
+                myadmin.Token = adminjwtToken;
 
-                _context.SaveChangesAsync();
+                _dbcontext.Users.Update(myadmin);
+
+                _dbcontext.SaveChangesAsync();
                 response = SetResponse(true, "Admin logged successfully","Admin", admin);
                 return response;
             }
@@ -127,14 +127,14 @@ namespace eCommerceWebAPI.Services.Users
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.email),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, "Admin"),
               
 
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
+                _appSettingsconfiguration.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -153,14 +153,14 @@ namespace eCommerceWebAPI.Services.Users
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.email),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, "User"),
 
 
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
+                _appSettingsconfiguration.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

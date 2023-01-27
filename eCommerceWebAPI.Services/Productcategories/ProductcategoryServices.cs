@@ -11,21 +11,21 @@ using Azure;
 
 namespace eCommerceWebAPI.Services.Productcategories
 {
-    public class ProductcategorySqlServerServices : IProductcategoryRepository
+    public class ProductcategoryServices : IProductcategoryRepository
     {
-        private readonly DbbContext _context = new DbbContext();
+        private readonly DbbContext _dbcontext = new DbbContext();
         private CategoryErrorHandler response;
 
       
         public List<Category> AllProductcategories()
         {
-            return _context.Categories.ToList();
+            return _dbcontext.Categories.ToList();
 
         }
 
         public Category OneProductcategory(int id)
         {
-            return _context.Categories.Find(id);
+            return _dbcontext.Categories.Find(id);
 
         }
 
@@ -35,7 +35,7 @@ namespace eCommerceWebAPI.Services.Productcategories
             var myProductcategories = AllProductcategories();
 
 
-            if (myProductcategories.Any(u => u.name == request.name))
+            if (myProductcategories.Any(u => u.Name == request.name))
             {
                 response = SetResponse(false, "Product catergory is already in the system", null);
                 return response;
@@ -43,13 +43,13 @@ namespace eCommerceWebAPI.Services.Productcategories
             var category = new Category
             {
               
-                name = request.name,
-                description = request.description,
+                Name = request.name,
+                Description = request.description,
             };
 
 
-           _context.Categories.Add(category);
-           _context.SaveChangesAsync();
+            _dbcontext.Categories.Add(category);
+            _dbcontext.SaveChangesAsync();
             response = SetResponse(true, "Product catergory is added", category);
             return response;
 
@@ -72,28 +72,29 @@ namespace eCommerceWebAPI.Services.Productcategories
                 return response;
 
             }
-            if (_context.Categories.Any(c => c.name == request.updateName))
+            if (_dbcontext.Categories.Any(c => c.Name == request.updateName))
             {
-                if (productcatergory.name != request.updateName)
+                if (productcatergory.Name != request.updateName)
                 {
                     response = SetResponse(false, "Category already exists", null);
                     return response;
                 }
 
+
             }
 
             if (request.updateName != null)
             {
-                productcatergory.name = request.updateName;
+                productcatergory.Name = request.updateName;
             }
 
             if (request.updateDescription != null)
             {
-                productcatergory.description = request.updateDescription;
+                productcatergory.Description = request.updateDescription;
             }
 
-            _context.Categories.Update(productcatergory);
-            _context.SaveChangesAsync();
+            _dbcontext.Categories.Update(productcatergory);
+            _dbcontext.SaveChangesAsync();
 
             productcatergory = OneProductcategory(id);
 
@@ -106,7 +107,7 @@ namespace eCommerceWebAPI.Services.Productcategories
         {
 
             var myproductcategoriesServices = AllProductcategories();
-            if (!myproductcategoriesServices.Any(u => u.categoryId == id))
+            if (!myproductcategoriesServices.Any(u => u.catergoryId == id))
             {
 
                 response = SetResponse(false, "Product catergory is already not in the system", null);
@@ -115,8 +116,8 @@ namespace eCommerceWebAPI.Services.Productcategories
             }
             var productcatergory = OneProductcategory(id);
 
-            _context.Categories.Remove(productcatergory);
-             _context.SaveChangesAsync();
+            _dbcontext.Categories.Remove(productcatergory);
+            _dbcontext.SaveChangesAsync();
             response = SetResponse(true, "Product catergory is Deleted", productcatergory);
             return response;
         }

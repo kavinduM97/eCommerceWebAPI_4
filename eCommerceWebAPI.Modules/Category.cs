@@ -5,12 +5,11 @@ namespace eCommerceWebAPI.Models
 {
     public class Category
     {
-        public int categoryId { get; set; }
-       
-        public string name { get; set; }
-       
-        public string description { get; set; }
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        [Key]
+        public int catergoryId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public ICollection<Product> Products { get; set; }
 
 
     }
