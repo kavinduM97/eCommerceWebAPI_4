@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceWebAPI.Services.Users;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eCommerceWebAPI.Controllers
 {
@@ -56,6 +58,15 @@ namespace eCommerceWebAPI.Controllers
 
             return Ok(response);
 
+        }
+
+
+        [HttpGet,Authorize]
+        public ActionResult <string>GetMe() 
+        {
+            var UserEmail = User.FindFirstValue(ClaimTypes.Email);
+            return Ok(UserEmail);
+                
         }
 
     }
