@@ -26,8 +26,8 @@ namespace eCommerceWebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("placeorderbyCart")]
-        public IActionResult PlaceOrdersbyCart([FromBody] List<int> cartIds, string email)
+        [Route("placeorderbyCart/{email}")]
+        public IActionResult PlaceOrdersbyCart( List<int> cartIds, string email)
         {
 
 
