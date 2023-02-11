@@ -32,7 +32,8 @@ namespace eCommerceWebAPI.Services.Orders
         public OrderErrorHandler PlaceOrdersbyCart(List<int> cartIds, string email)
         {
 
-
+            Random rnd = new Random();
+            int TrId = rnd.Next();
 
             var date = DateTime.Now;
             var order = new Models.Order
@@ -158,7 +159,7 @@ namespace eCommerceWebAPI.Services.Orders
 
 
 
-            response = SetResponse(true, "Order placed successful", 0);
+            response = SetResponse(true, "Order placed successful", TrId);
             return response;
            
 
