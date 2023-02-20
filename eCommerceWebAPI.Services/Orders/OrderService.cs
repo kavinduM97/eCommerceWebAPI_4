@@ -287,7 +287,27 @@ namespace eCommerceWebAPI.Services.Orders
                 return response;
             }
 
-
+            //.......................................................check cart            
+            var cartStock = _dbcontext.Carts.Where(c => c.ProductId == id).Select(c => new { c.productName, c.quantity, c.cartId }).FirstOrDefault();           
+            if (cartStock.productName != null)           
+            {                 
+                if(stock == 0)                
+                {   
+                    var cartProduct = _dbcontext.Carts.Find(cartStock.cartId);
+                    _dbcontext.Carts.Remove(cartProduct);
+                    _dbcontext.SaveChangesAsync();                 
+                    Thread.Sleep(2000);                
+                }else 
+                if(stock < cartStock.quantity)    
+                {   
+                    var cartProduct = _dbcontext.Carts.Find(cartStock.cartId);         
+                    cartProduct.quantity = stock;
+                    _dbcontext.Carts.Update(cartProduct);
+                    _dbcontext.SaveChangesAsync();               
+                    Thread.Sleep(2000);                }                         
+            }                          
+            
+            //...........................................................
             var date = DateTime.Now;
 
 
